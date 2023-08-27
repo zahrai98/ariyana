@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from account import serilizers as account_serilizer
-
-from twitter.tweet import models
+from . import models
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -10,7 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Post
-        fields = '__all__'
+        fields = "__all__"
 
 
 # class PostFollowingSerializer(serializers.ModelSerializer):

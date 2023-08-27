@@ -5,4 +5,4 @@ from . import models
 class RelationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Relation
-        fields = '__all__'
+        fields = "__all__"
