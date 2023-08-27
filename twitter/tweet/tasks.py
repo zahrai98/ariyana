@@ -6,27 +6,28 @@ import datetime
 from celery.schedules import crontab
 
 
-
 def cal_five_top_like(user):
-    posts = models.Post.objects.filter(user_followers=user, created__lte=datetime.datetime.now())\
-                                            .order_by('-likes_count').limit(5)
+    posts = (
+        models.Post.objects.filter(
+            user_followers=user, created__lte=datetime.datetime.now()
+        )
+        .order_by("-likes_count")
+        .limit(5)
+    )
     return posts
-    
 
 
 @periodic_task(run_every=(crontab(minute=0, hour=0)))
 def send_mail_five_top_post():
     subject = "five top posts"
-    from_email = 'email@example.com'
+    from_email = "email@example.com"
 
-    users =  User.objects.all()
+    users = User.objects.all()
     for user in users:
-        message = ''
+        message = ""
         posts = cal_five_top_like(user)
         if not posts:
             continue
         for post in posts:
             message.apend(f"{post.body} \n")
         send_mail(subject, message, from_email, [user.email])
-
-
