@@ -11,10 +11,3 @@ class PostSerializer(serializers.ModelSerializer):
         model = models.Post
         fields = "__all__"
 
-
-# class PostFollowingSerializer(serializers.ModelSerializer):
-#     posts = PostSerializer(many=True, read_only=True)
-
-#     class Meta:
-#         model =
-#         fields = '__all__'
