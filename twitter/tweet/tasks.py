@@ -3,17 +3,23 @@ from . import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 import datetime
+from django.db.models import Count
+
 from celery.schedules import crontab
 
 
 def cal_five_top_like(user):
+    day_long = datetime.datetime.now() - datetime.timedelta(days=1)
+
     posts = (
         models.Post.objects.filter(
-            user_followers=user, created__lte=datetime.datetime.now()
+            user_followers=user,
+            created__gte=day_long,
         )
-        .order_by("-likes_count")
-        .limit(5)
+        .annotate(num_likes=Count("pvotes"))
+        .order_by("-num_likes")[:5]
     )
+
     return posts
 
 
