@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
@@ -9,16 +8,12 @@ from . import models
 
 class RelationAPIView(APIView):
     """
-    View to list all users in the system.
-
+    View to create or delete relation
     * Requires token authentication.
-    * Only admin users are able to access this view.
     """
 
     permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request, format=None):
-        pass
+    authentication_classes = [authentication.TokenAuthentication]
 
     def post(self, request, format=None, *args, **kwargs):
         """
@@ -33,7 +28,7 @@ class RelationAPIView(APIView):
 
     def delete(self, request, format=None, *args, **kwargs):
         """
-        Delete a new relation
+        Delete a relation
         """
         from_user = request.user.id
         to_user = get_object_or_404(User, pk=self.kwargs["to_user_id"])
