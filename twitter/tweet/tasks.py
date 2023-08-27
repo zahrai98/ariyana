@@ -4,8 +4,8 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 import datetime
 from django.db.models import Count
-
 from celery.schedules import crontab
+from twitter.settings import EMAIL_HOST_USER
 
 
 def cal_five_top_like(user):
@@ -26,7 +26,7 @@ def cal_five_top_like(user):
 @periodic_task(run_every=(crontab(minute=0, hour=0)))
 def send_mail_five_top_post():
     subject = "five top posts"
-    from_email = "email@example.com"
+    from_email = EMAIL_HOST_USER
 
     users = User.objects.all()
     for user in users:
