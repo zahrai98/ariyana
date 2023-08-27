@@ -7,6 +7,6 @@ app_name = 'account'
 urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/relation/', RelationAPIView.as_view(), name='relation'),
+    path('api/relation/<int:to_user_id>/', RelationAPIView.as_view(), name='relation'),
 
 ]
