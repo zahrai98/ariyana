@@ -1,16 +1,20 @@
-from celery import shared_task
+from celery import shared_task, periodic_task
 from . import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 import datetime
+from celery.schedules import crontab
+
+
 
 def cal_five_top_like(user):
     posts = models.Post.objects.filter(user_followers=user, created__lte=datetime.datetime.now())\
                                             .order_by('-likes_count').limit(5)
     return posts
     
-    
-@shared_task
+
+
+@periodic_task(run_every=(crontab(minute=0, hour=0)))
 def send_mail_five_top_post():
     subject = "five top posts"
     from_email = 'email@example.com'
